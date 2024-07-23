@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   make_redir.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hogkim <hogkim@student.42seoul.kr>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/14 20:22:36 by hogkim            #+#    #+#             */
+/*   Updated: 2022/09/26 21:13:31 by hogkim           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 #include <unistd.h>
 #include <fcntl.h>
@@ -28,11 +40,10 @@ static void	make_redir_append(t_redir_data *data, char *word)
 	data->flag = O_CREAT | O_WRONLY | O_APPEND;
 	data->fd_orig = STDOUT_FILENO;
 	data->fd_new = -1;
-	data->file_content = NULL;
-	data->heredoc_eof = word;
+	data->file_content = word;
+	data->heredoc_eof = NULL;
 }
 
-// quote removal for eof needed
 static void	make_redir_heredoc(t_redir_data *data, char *word)
 {
 	data->redir_type = REDIR_HEREDOC;
@@ -42,8 +53,6 @@ static void	make_redir_heredoc(t_redir_data *data, char *word)
 	data->file_content = NULL;
 	data->heredoc_eof = word;
 }
-
-#include <stdio.h>
 
 t_node	*make_redir_node(char *word, t_token_type token)
 {

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_export.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hogkim <hogkim@student.42seoul.kr>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/14 20:20:45 by hogkim            #+#    #+#             */
+/*   Updated: 2022/09/14 20:20:46 by hogkim           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 static char	*extract_key(char *target)
@@ -33,10 +45,10 @@ static int	set_env(t_cmd *cmd, t_node *current)
 	t_word_data	*data;
 
 	data = current->data;
-	if (isname(data->word)) // 변수명이 될수 있는지 확인.
+	if (isname(data->word))
 	{
 		target = find_envp_node_by_key(cmd, current);
-		if (!target) // target이없다면 새노드 생성하여 붙이기
+		if (!target)
 			list_push_back(cmd->envp_list, cut_and_make_envp_node(data->word));
 		else if (ft_strchr(data->word, '='))
 		{
@@ -48,7 +60,7 @@ static int	set_env(t_cmd *cmd, t_node *current)
 	else
 	{
 		ft_putstr_fd("export: `", STDERR_FILENO);
-		ft_putstr_fd(current->data, STDERR_FILENO);
+		ft_putstr_fd(data->word, STDERR_FILENO);
 		ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
 		return (EXECUTION_FAILURE);
 	}
@@ -59,11 +71,10 @@ static int	set_envs(t_cmd *cmd, t_node *current)
 	int	return_value;
 
 	return_value = EXECUTION_SUCCESS;
-	while (current) // 노드를 끝까지 순회하면서 얻고자하는것은?
+	while (current)
 	{
 		if (set_env(cmd, current) == EXECUTION_FAILURE)
 			return_value = EXECUTION_FAILURE;
-			//if문에 들어왔다면 set_env함수 실패이므로 얼리리턴으로 나가야하지않을까?
 		current = current->next;
 	}
 	return (return_value);
@@ -80,8 +91,8 @@ int	ft_export(t_cmd *cmd)
 		current = cmd->content.simple.words->head;
 		if (current)
 			return_value = set_envs(cmd, current);
-		// else
-			// print_env_sort_by(cmd->env, 1);
+		else
+			print_envp(*cmd->envp_list);
 	}
 	return (return_value);
 }

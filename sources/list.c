@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   list.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hogkim <hogkim@student.42seoul.kr>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/14 20:22:31 by hogkim            #+#    #+#             */
+/*   Updated: 2022/09/14 20:22:31 by hogkim           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 #include <stdlib.h>
 
@@ -29,7 +41,6 @@ void	list_remove_head_token(t_list *list)
 t_node	*list_pop_head(t_list *list)
 {
 	t_node	*temp;
-	t_node	*node;
 
 	if (!list->count)
 		return (NULL);
@@ -48,7 +59,7 @@ t_node	*list_pop_head(t_list *list)
 	--(list->count);
 	return (temp);
 }
- 
+
 t_node	*list_pop_back(t_list *list)
 {
 	t_node	*temp;
@@ -96,11 +107,4 @@ t_node	*list_new_node(void *data)
 	new->prev = NULL;
 	new->next = NULL;
 	return (new);
-}
-
-void	list_init(t_list *list)
-{
-	list->head = NULL;
-	list->tail = NULL;
-	list->count = 0;
 }

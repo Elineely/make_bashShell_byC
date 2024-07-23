@@ -1,6 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_cd.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hogkim <hogkim@student.42seoul.kr>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/14 20:20:21 by hogkim            #+#    #+#             */
+/*   Updated: 2022/09/15 10:53:22 by hogkim           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
-#include <stdio.h>
 #include <stdlib.h>
+
+static int	check_directory_failure(char *str)
+{
+	ft_putstr_fd(str, STDERR_FILENO);
+	return (EXECUTION_FAILURE);
+}
 
 static int	check_directory_name_input(t_cmd *cmd, char **directory_name)
 {
@@ -8,36 +25,29 @@ static int	check_directory_name_input(t_cmd *cmd, char **directory_name)
 	{
 		*directory_name = ft_strdup(envp_search_value(*cmd->envp_list, "HOME"));
 		if (!*directory_name)
-		{
-			ft_putstr_fd("cd: HOME not set\n", STDERR_FILENO);
-			return (EXECUTION_FAILURE);
-		}
+			return (check_directory_failure("cd: HOME not set\n"));
 	}
 	else if (cmd->content.simple.words->count != 1)
-	{
-		ft_putstr_fd("cd: Too many arguments\n", STDERR_FILENO);
-		return (EXECUTION_FAILURE);
-	}
+		return (check_directory_failure("cd: Too many arguments\n"));
 	else if (check_one_word(cmd, '-'))
 	{
 		envp_search_value(*cmd->envp_list, "OLDPWD");
-		*directory_name = ft_strdup(envp_search_value(*cmd->envp_list, "OLDPWD"));
+		*directory_name = \
+			ft_strdup(envp_search_value(*cmd->envp_list, "OLDPWD"));
 		if (!*directory_name)
-		{
-			ft_putstr_fd("cd: OLDPWD not set\n", STDERR_FILENO);
-			return (EXECUTION_FAILURE);
-		}
+			return (check_directory_failure("cd: OLDPWD not set\n"));
 	}
 	return (EXECUTION_SUCCESS);
 }
 
 static int	get_directory_name(t_cmd *cmd, char **directory_name)
 {
-	int			return_value;
 	t_word_data	*data;
+	int			return_value;
 
-	data = cmd->content.simple.words->head->data;
 	return_value = check_directory_name_input(cmd, directory_name);
+	if (cmd->content.simple.words->head)
+		data = cmd->content.simple.words->head->data;
 	if (return_value == EXECUTION_SUCCESS && *directory_name == NULL)
 		*directory_name = ft_strdup(data->word);
 	return (return_value);
@@ -45,7 +55,7 @@ static int	get_directory_name(t_cmd *cmd, char **directory_name)
 
 static int	change_directory(t_cmd *cmd, char *directory_name)
 {
-	int	return_value;
+	int			return_value;
 
 	return_value = replace_pwd(ft_strdup("OLDPWD"), cmd);
 	if (return_value == EXECUTION_SUCCESS)
@@ -58,8 +68,8 @@ static int	change_directory(t_cmd *cmd, char *directory_name)
 		else if (return_value == -1)
 		{
 			ft_putstr_fd("cd: ", STDERR_FILENO);
-			//ft_perror(directory_name);
-			//error 처리?
+			ft_putstr_fd(directory_name, STDERR_FILENO);
+			ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
 		}
 	}
 	if (return_value == EXECUTION_SUCCESS)

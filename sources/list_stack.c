@@ -1,20 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   list_stack.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hogkim <hogkim@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/14 20:22:24 by hogkim            #+#    #+#             */
+/*   Updated: 2022/09/19 13:37:32 by hogkim           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 #include <stdlib.h>
-
-void	stack_pop_back(t_list *list, int count)
-{
-	t_node	*temp;
-	int		i;
-
-	i = 0;
-	while (i < count)
-	{
-		temp = list_pop_back(list);
-		//free(temp->data); -->노드 내 데이터'들'도 할당 해제
-		free(temp);
-		++i;
-	}
-}
 
 void	parser_push_back(t_list *list, int type)
 {
@@ -30,7 +27,6 @@ void	tree_push_back(t_list *list, t_tree_content content)
 {
 	void	*data;
 	t_node	*new_node;
-
 
 	data = create_tree_data(content);
 	new_node = list_new_node(data);
@@ -54,23 +50,6 @@ t_parser_data	*create_parser_data(int type)
 	}
 	return (new_data);
 }
-
-// union u_tree_content
-// {
-// 	t_token_type	token;
-// 	char			*word;
-// 	t_list			*redir_list;
-// 	t_cmd			*cmd;
-// 	t_element		*element;
-// };
-
-// struct s_tree_data
-// {
-// 	int				type;
-// 	t_tree_type		tree_type;
-// 	t_parser_state	state;
-// 	t_tree_content	content;
-// };
 
 t_tree_data	*create_tree_data(t_tree_content content)
 {

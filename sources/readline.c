@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   readline.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hogkim <hogkim@student.42seoul.kr>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/14 20:22:42 by hogkim            #+#    #+#             */
+/*   Updated: 2022/09/26 13:19:17 by hogkim           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 #include <stdio.h>
 #include <readline/readline.h>
@@ -8,17 +20,16 @@ int	g_exit_status;
 
 void	prompt_loop(t_all_data *all_data)
 {
-	char *line;
+	char	*line;
 
 	while (1)
 	{
+		set_prompt_handler();
 		line = readline("minishell > ");
 		if (line)
 		{
+			set_handler_for_ignore();
 			g_exit_status = process_line(all_data, line);
-			// ft_putstr_fd("output> ", 1);
-			// ft_putstr_fd(line, 1);
-			// ft_putstr_fd("\n", 1);
 			free(line);
 			line = NULL;
 		}

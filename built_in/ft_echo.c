@@ -1,5 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_echo.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hogkim <hogkim@student.42seoul.kr>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/14 20:20:28 by hogkim            #+#    #+#             */
+/*   Updated: 2022/09/27 19:56:06 by hogkim           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
-#include <stdio.h>
 
 static int	check_opt(t_list *list)
 {
@@ -8,9 +19,20 @@ static int	check_opt(t_list *list)
 	if (!list->head)
 		return (1);
 	word_data = list->head->data;
-	if (!ft_strncmp(word_data->word, "-n", 3))
+	if (word_data->word && !ft_strncmp(word_data->word, "-n", 3))
 		return (0);
 	return (1);
+}
+
+static void	print_echo(t_node *current, t_word_data *word_data)
+{
+	if (current->next)
+	{
+		ft_putstr_fd(word_data->word, STDOUT_FILENO);
+		ft_putstr_fd(" ", STDOUT_FILENO);
+	}
+	else
+		ft_putstr_fd(word_data->word, STDOUT_FILENO);
 }
 
 int	ft_echo(t_cmd *cmd)
@@ -21,21 +43,23 @@ int	ft_echo(t_cmd *cmd)
 	t_word_data	*word_data;
 
 	word_list = cmd->content.simple.words;
-	
+	if (!word_list->head)
+	{
+		ft_putstr_fd("\n", STDOUT_FILENO);
+		return (EXECUTION_SUCCESS);
+	}
 	word_data = word_list->head->data;
 	display_return = check_opt(word_list);
 	current = word_list->head;
 	if (!display_return)
 		current = current->next;
-	while (current)
+	while (current && word_data->word)
 	{
 		word_data = current->data;
-		printf("%s", word_data->word);
+		print_echo(current, word_data);
 		current = current->next;
 	}
 	if (display_return)
-	{
-		printf("\n");
-	}
+		ft_putstr_fd("\n", STDOUT_FILENO);
 	return (EXECUTION_SUCCESS);
 }

@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   run_parser.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hogkim <hogkim@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/14 20:23:01 by hogkim            #+#    #+#             */
+/*   Updated: 2022/09/19 14:12:56 by hogkim           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 #include <stdio.h>
 
-static t_reducer_fp	 get_reduce_rule(t_parser_state state, t_reducer_fp *table)
+static t_reducer_fp	get_reduce_rule(t_parser_state state, t_reducer_fp *table)
 {
 	int	index;
 
@@ -41,7 +53,7 @@ static int	should_reduce(t_parser_state curr_state, t_token_type input_type)
 }
 
 static t_token_type	get_input_token_type(t_list token_list)
-{ 
+{
 	t_token_data	*data;
 
 	if (!token_list.head)
@@ -50,17 +62,14 @@ static t_token_type	get_input_token_type(t_list token_list)
 	return (data->token_type);
 }
 
-#include <stdio.h>
-
 int	run_parser(t_all_data *all_data)
 {
 	t_parser_state	state;
-	t_reducer_fp	reduce_func;//action_func
-	t_token_type	token_type;//type
+	t_reducer_fp	reduce_func;
+	t_token_type	token_type;
 	t_parser_state	goto_state;
 	t_parser_data	*data;
 
-	data = all_data->parser.parser_stack.tail->data;
 	state = parser_peek_state(all_data->parser.parser_stack);
 	data = all_data->parser.parser_stack.tail->data;
 	if (data->type & PARSER_STATE)
@@ -70,9 +79,7 @@ int	run_parser(t_all_data *all_data)
 		{
 			reduce_func = get_reduce_rule(state, all_data->parser.reduce_func);
 			if (reduce_func)
-			{
 				return (reduce_func(all_data));
-			}
 			else
 				return (-1);
 		}

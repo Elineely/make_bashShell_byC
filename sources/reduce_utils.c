@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   reduce_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hogkim <hogkim@student.42seoul.kr>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/14 20:22:56 by hogkim            #+#    #+#             */
+/*   Updated: 2022/09/26 20:54:57 by hogkim           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -40,11 +52,14 @@ void	append_redir_list(t_cmd *new_simple, t_element *element)
 		element->redir_list->head->prev = redir_list->tail;
 		redir_list->tail->next = element->redir_list->head;
 		redir_list->tail = element->redir_list->tail;
-		new_simple->redir_list = redir_list;
+		redir_list->count += element->redir_list->count;
 		free(element->redir_list);
 	}
 	else
+	{
+		free(new_simple->redir_list);
 		new_simple->redir_list = element->redir_list;
+	}
 }
 
 t_cmd	*make_new_simple(t_all_data *all_data)
@@ -62,4 +77,3 @@ t_cmd	*make_new_simple(t_all_data *all_data)
 	new_simple->pid_last_child = -1;
 	return (new_simple);
 }
-

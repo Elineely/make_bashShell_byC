@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hogkim <hogkim@student.42seoul.kr>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/14 20:21:49 by hogkim            #+#    #+#             */
+/*   Updated: 2022/09/26 21:21:25 by hogkim           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
@@ -7,10 +19,12 @@
 
 # define BUFFER_SIZE 1024
 
+typedef unsigned long			t_size;
+
 char	*ft_strdup_gnl(const char *s1);
-size_t	ft_strlcpy_gnl(char *dst, const char *src, size_t dstsize);
+t_size	ft_strlcpy_gnl(char *dst, const char *src, t_size dstsize);
 int		ft_no_newline_gnl(char *buffer);
-size_t	ft_strlen_gnl(const char *s);
+t_size	ft_strlen_gnl(const char *s);
 char	*ft_strjoin_gnl(char *s1, char *s2);
 
 char	*ft_restart_gnl(char *temp);

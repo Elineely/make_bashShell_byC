@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hogkim <hogkim@student.42seoul.kr>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/14 20:21:59 by hogkim            #+#    #+#             */
+/*   Updated: 2022/09/14 20:21:59 by hogkim           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/get_next_line.h"
 
 char	*ft_strdup_gnl(const char *s1)
 {
-	size_t	i;
+	t_size	i;
 	char	*str;
 
 	str = (char *)malloc(sizeof(char) * (ft_strlen_gnl(s1) + 1));
@@ -18,10 +30,10 @@ char	*ft_strdup_gnl(const char *s1)
 	return (str);
 }
 
-size_t	ft_strlcpy_gnl(char *dst, const char *src, size_t detsize)
+t_size	ft_strlcpy_gnl(char *dst, const char *src, t_size detsize)
 {
-	size_t	i;
-	size_t	len;
+	t_size	i;
+	t_size	len;
 
 	i = 0;
 	len = ft_strlen_gnl(src);
@@ -36,10 +48,9 @@ size_t	ft_strlcpy_gnl(char *dst, const char *src, size_t detsize)
 	return (len);
 }
 
-
 int	ft_no_newline_gnl(char *s)
 {
-	size_t	i;
+	t_size	i;
 
 	if (!s)
 		return (1);
@@ -53,9 +64,9 @@ int	ft_no_newline_gnl(char *s)
 	return (1);
 }
 
-size_t	ft_strlen_gnl(const char *s)
+t_size	ft_strlen_gnl(const char *s)
 {
-	size_t	i;
+	t_size	i;
 
 	i = 0;
 	while (s[i])
@@ -71,7 +82,8 @@ char	*ft_strjoin_gnl(char *s1, char *s2)
 		s1 = ft_strdup_gnl("");
 	if (!s1 || !s2)
 		return (NULL);
-	str = (char *)malloc(sizeof(char) * (ft_strlen_gnl(s1) + ft_strlen_gnl(s2) + 1));
+	str = (char *)malloc(sizeof(char) \
+						*(ft_strlen_gnl(s1) + ft_strlen_gnl(s2) + 1));
 	if (!str)
 		return (NULL);
 	ft_strlcpy_gnl(str, s1, ft_strlen_gnl(s1) + 1);

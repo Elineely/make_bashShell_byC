@@ -1,5 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   list_heredoc.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hogkim <hogkim@student.42seoul.kr>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/14 20:22:23 by hogkim            #+#    #+#             */
+/*   Updated: 2022/09/26 21:08:11 by hogkim           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 void	heredoc_list_remove_head_node(t_heredoc_list *list)
 {
@@ -60,10 +73,12 @@ void	heredoc_list_push_back(t_heredoc_list *list, t_heredoc_node *new)
 	++(list->count);
 }
 
-t_heredoc_node	*heredoc_list_new_node(t_list *data)
+t_heredoc_node	*heredoc_list_new_node(t_node *node)
 {
 	t_heredoc_node	*new;
+	t_redir_data	*data;
 
+	data = node->data;
 	new = ft_malloc(sizeof(t_heredoc_node));
 	new->data = data;
 	new->prev = NULL;

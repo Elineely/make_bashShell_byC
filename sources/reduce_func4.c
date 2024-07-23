@@ -1,14 +1,25 @@
-#include "../includes/minishell.h"
-#include <stdio.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   reduce_func4.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hogkim <hogkim@student.42seoul.kr>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/14 20:22:52 by hogkim            #+#    #+#             */
+/*   Updated: 2022/09/20 14:32:45 by hogkim           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-static void make_new_tree_content(t_parser *parser, t_tree_content *content)
+#include "../includes/minishell.h"
+
+static void	make_new_tree_content(t_parser *parser, t_tree_content *content)
 {
 	t_tree_data		*data;
 	t_tree_content	word;
 	t_tree_content	redir_open;
 	t_node			*node;
 	t_list			*redir_list;
-	
+
 	redir_list = ft_malloc(sizeof(t_list));
 	list_init(redir_list);
 	data = parser->tree_stack.tail->data;
@@ -19,7 +30,8 @@ static void make_new_tree_content(t_parser *parser, t_tree_content *content)
 	list_push_back(redir_list, node);
 	content->redir_list = redir_list;
 	if (redir_open.token == TT_REDIR_HEREDOC)
-		heredoc_list_push_back(&parser->heredoc_list, heredoc_list_new_node(redir_list));
+		heredoc_list_push_back(&parser->heredoc_list, \
+				heredoc_list_new_node(redir_list->head));
 }
 
 // R -> redir_op id;
@@ -38,6 +50,6 @@ t_return_value	reduce_rule_15(t_all_data *all_data)
 	stack_pop_back(&parser->tree_stack, 2);
 	tree_push_back(&parser->tree_stack, content);
 	data = parser->tree_stack.tail->data;
-	data->type = TREE_REDIR_LIST;
+	data->tree_type = TREE_REDIR_LIST;
 	return (RV_SUCCESS);
 }

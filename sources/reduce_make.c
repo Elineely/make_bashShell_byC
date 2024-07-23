@@ -1,7 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   reduce_make.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hogkim <hogkim@student.42seoul.kr>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/14 20:22:54 by hogkim            #+#    #+#             */
+/*   Updated: 2022/09/26 20:59:47 by hogkim           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 #include <stdio.h>
 
-t_cmd	*make_simple(t_all_data *all_data, void *simple_data, void *element_data)
+t_cmd	*make_simple(t_all_data *all_data, \
+					void *simple_data, void *element_data)
 {
 	t_tree_data		*data;
 	t_cmd			*new_simple;
@@ -11,9 +24,7 @@ t_cmd	*make_simple(t_all_data *all_data, void *simple_data, void *element_data)
 	simple = NULL;
 	data = simple_data;
 	if (simple_data)
-	{
 		simple = data->content.cmd;
-	}
 	data = element_data;
 	element = data->content.element;
 	if (!simple)
@@ -27,7 +38,8 @@ t_cmd	*make_simple(t_all_data *all_data, void *simple_data, void *element_data)
 	return (new_simple);
 }
 
-t_cmd	*make_connect(t_all_data *all_data, void *left, void *right, void *connector)
+t_cmd	*make_connect(t_all_data *all_data, void *left, \
+					void *right, void *connector)
 {
 	t_tree_data		*data;
 	t_cmd			*new_cmd;

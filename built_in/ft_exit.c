@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hogkim <hogkim@student.42seoul.kr>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/14 20:20:38 by hogkim            #+#    #+#             */
+/*   Updated: 2022/09/15 13:52:26 by hogkim           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,15 +22,7 @@ int	ft_atoi(const char *str)
 	int					plma;
 	int					index;
 
-	index = 0;
-	while (str[index] == ' ' || (str[index] >= 9 && str[index] <= 13))
-		index++;
-	plma = 1;
-	if (str[index] == '-')
-		plma = -1;
-	if (str[index] == '-' || str[index] == '+')
-		index++;
-	result = 0;
+	init_atoi(str, &index, &plma, &result);
 	while (str[index] >= '0' && str[index] <= '9')
 	{
 		result = result * 10 + str[index] - '0';
@@ -36,7 +40,7 @@ int	ft_atoi(const char *str)
 
 static int	are_digit(char *target)
 {
-	size_t	i;
+	t_size	i;
 
 	i = 0;
 	while (target[i] != '\0')
@@ -79,22 +83,22 @@ static int	parameter_handling(t_node *word_node, int *exit_status)
 int	ft_exit(t_cmd *cmd)
 {
 	t_node		*node;
-	int 		exit_status;
+	int			exit_status;
 
-	if(cmd)
+	if (cmd)
 	{
 		node = cmd->content.simple.words->head;
 		if (node)
 		{
 			if (parameter_handling(node, &exit_status) == EXECUTION_SUCCESS)
 			{
-				printf("exit");
+				printf("exit\n");
 				exit(exit_status);
 			}
 		}
 		else
 		{
-			printf("exit");
+			printf("exit\n");
 			exit(g_exit_status);
 		}
 	}

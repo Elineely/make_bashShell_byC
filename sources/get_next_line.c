@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hogkim <hogkim@student.42seoul.kr>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/14 20:22:00 by hogkim            #+#    #+#             */
+/*   Updated: 2022/09/14 20:22:01 by hogkim           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/get_next_line.h"
 
 char	*ft_restart_gnl(char *temp)
 {
-	size_t	i;
-	size_t	len;
+	t_size	i;
+	t_size	len;
 	char	*str;
 
 	len = ft_strlen_gnl(temp);
@@ -25,7 +37,7 @@ char	*ft_restart_gnl(char *temp)
 
 char	*ft_cut_temp_gnl(char *temp)
 {
-	size_t	i;
+	t_size	i;
 	char	*line;
 
 	if (!temp[0])

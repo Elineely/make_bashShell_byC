@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   typedef.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hogkim <hogkim@student.42seoul.kr>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/14 20:21:53 by hogkim            #+#    #+#             */
+/*   Updated: 2022/09/26 21:13:35 by hogkim           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef TYPEDEF_H
 # define TYPEDEF_H
 
@@ -179,13 +191,12 @@ typedef enum e_expansion_flag
 {
 	EXP_NON = 0,
 	EXP_VARIABLE = 1 << 1,
-	//원래 wordsplit이 2 였던것 , 모르면 교보재 볼것
 	EXP_ASTERISK = 1 << 2,
-	EXP_QUOT = 1 << 3, 
- 	EXP_ALL = EXP_VARIABLE | EXP_ASTERISK | EXP_QUOT
+	EXP_QUOT = 1 << 3,
+	EXP_ALL = EXP_VARIABLE | EXP_ASTERISK | EXP_QUOT
 }	t_expansion_flag;
 
-typedef unsigned long			size_t;
+typedef unsigned long			t_size;
 typedef struct s_all_data		t_all_data;
 typedef struct s_lexer			t_lexer;
 typedef struct s_parser			t_parser;
@@ -227,7 +238,7 @@ struct s_token_data
 
 struct s_heredoc_node
 {
-	t_list					*data;
+	t_redir_data			*data;
 	struct s_heredoc_node	*prev;
 	struct s_heredoc_node	*next;
 };
@@ -243,21 +254,21 @@ struct s_heredoc_list
 {
 	t_heredoc_node	*head;
 	t_heredoc_node	*tail;
-	size_t			count;
+	t_size			count;
 };
 
 struct s_list
 {
 	t_node	*head;
 	t_node	*tail;
-	size_t	count;
+	t_size	count;
 };
 
 struct s_lexer
 {
 	char			*input;
 	char			last_item;
-	size_t			index;
+	t_size			index;
 	t_lexer_state	current_state;
 	t_lexer_fp		lex_func[5][5];
 };
@@ -270,19 +281,7 @@ struct s_parser
 	t_heredoc_list	heredoc_list;
 	t_cmd			*final_cmd;
 	t_parser_flag	flag;
-}; 
-
-/*
-struct s_parser
-{
-	t_token			*input;
-	t_parser_stack	*parser_stack;
-	t_value_stack	*value_stack;
-	t_heredoc_list	*heredoc_list;
-	t_parser_flag	flag;
-	t_cmd			*final_cmd;
 };
-*/
 
 struct s_all_data
 {
@@ -375,19 +374,11 @@ struct s_word_data
 	int			key_len;
 	int			field;
 	char		*word;
-	t_list		*variables; // node 일지 ?
+	t_list		*variables;
 };
-
-// typedef struct s_buffer
-// {
-// 	char	*word;
-// 	size_t	size;
-// 	size_t	len;
-// }	t_buffer; 주서끄
 
 struct s_expansion_info	
 {
-	// t_buffer		curr_word; //주서끄
 	char			*curr_word;
 	t_list			*new_list;
 	t_quot_state	quote_flag;
@@ -395,10 +386,10 @@ struct s_expansion_info
 
 struct s_glob_index
 {
-	size_t	name_idx;
-	size_t	pattern_idx;
-	size_t	name_fallback;
-	size_t	pattern_fallback;
+	t_size	name_idx;
+	t_size	pattern_idx;
+	t_size	name_fallback;
+	t_size	pattern_fallback;
 };
 
 #endif
